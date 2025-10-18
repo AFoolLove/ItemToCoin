@@ -1,0 +1,5 @@
+{
+  "itemtocoin.tocoin": "converted %s%s. your balance is now %s%s.",
+  "itemtocoin.notype": "no currency type '%s' available.",
+  "itemtocoin.notenough": "insufficient %sx%s quantity. conversion unavailable."
+}
