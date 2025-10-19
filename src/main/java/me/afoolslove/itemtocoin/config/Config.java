@@ -19,6 +19,7 @@ import java.util.Map;
 public class Config {
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
+            .registerTypeAdapter(ToCoin.class, new ToCoin.Serializer())
             .setPrettyPrinting()
             .create();
     public static final TypeToken<Map<ResourceLocation, ToCoin>> TO_COIN_TYPE = new TypeToken<>() {
@@ -59,7 +60,21 @@ public class Config {
             }
             Path toCoinsPath = itemToCoinPath.resolve("toCoins.json");
             if (!Files.exists(toCoinsPath)) {
-                Files.writeString(toCoinsPath, "{}");
+                Files.writeString(toCoinsPath, """
+                        {
+                          "itemtocoin:sound": {
+                            "type": "minecraft:entity.experience_orb.pickup"
+                          },
+                          "itemtocoin:sounds": {
+                            "type": "minecraft:entity.player.levelup"
+                          },
+                          "minecraft:stone": {
+                            "amount": 1,
+                            "type": "itc",
+                            "rate": 1
+                          }
+                        }\
+                        """);
             }
 
             load(GSON.fromJson(Files.newBufferedReader(toCoinsPath), TO_COIN_TYPE));
