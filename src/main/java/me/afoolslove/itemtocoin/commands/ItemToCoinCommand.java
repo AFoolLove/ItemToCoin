@@ -3,12 +3,9 @@ package me.afoolslove.itemtocoin.commands;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import me.afoolslove.itemtocoin.config.Config;
-import me.afoolslove.itemtocoin.network.SyncToCoinsPacket;
-import net.minecraft.client.resources.language.LanguageInfo;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.neoforgespi.language.IModFileInfo;
+import net.minecraft.network.chat.MutableComponent;
 
 public class ItemToCoinCommand extends LiteralArgumentBuilder<CommandSourceStack> {
     public ItemToCoinCommand() {
@@ -30,6 +27,10 @@ public class ItemToCoinCommand extends LiteralArgumentBuilder<CommandSourceStack
                         .executes(context -> {
                             Config.loadFile();
                             context.getSource().sendSystemMessage(Component.literal("reloaded."));
+                            if (!Config.SHOP_INSTALLED) {
+                                MutableComponent msg = Component.translatable("itemtocoin.shopnotinstalled", Config.SHOP_TYPE.getType());
+                                context.getSource().sendSystemMessage(Component.literal(msg.getString()));
+                            }
                             return Command.SINGLE_SUCCESS;
                         })
         );

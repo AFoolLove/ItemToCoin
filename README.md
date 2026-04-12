@@ -1,6 +1,6 @@
 # Item To Coin
 
-将物品转换为货币(sdm)
+将物品转换为货币(sdm或vss)
 
 单击右键换取一次  
 潜行+右键全部换取
@@ -22,9 +22,12 @@
 ```json
 {
   "<命名空间>:<物品名称>(被转换的物品)": {
-    "amount": int (转换一次消耗的物品数量),
-    "type": String (货币类型),
-    "rate": int (换取比例)
+    "amount": int
+    (转换一次消耗的物品数量),
+    "type": String
+    (货币类型),
+    "rate": int
+    (换取比例)
   }
 }
 ```
@@ -68,12 +71,29 @@
 }
 ```
 
+## 使用的商店
+[sdm](https://github.com/DeusSixik/SDMShop)商店 (sdmshp-3.2.3、sdmeconomy-1.21.1-2.4.0)  
+[vss](https://github.com/zhenshiz/ViScriptShop)商店 v1.1.2
+
+```json
+{
+  "itemtocoin:shoptype": {
+    "type": "<sdm|vss>"
+  }
+}
+```
+
 ## 完整配置内容示例
+
+示例商店为sdm
 
 `./config/itemtocoin/toCoins.json`
 
 ```json
  {
+  "itemtocoin:shoptype": {
+    "type": "sdm"
+  },
   "itemtocoin:sound": {
     "type": "minecraft:entity.experience_orb.pickup"
   },

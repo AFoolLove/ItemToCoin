@@ -4,10 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import me.afoolslove.itemtocoin.ItemToCoinMod;
+import me.afoolslove.itemtocoin.ShopType;
 import me.afoolslove.itemtocoin.ToCoin;
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLPaths;
 
 import java.io.IOException;
@@ -25,17 +29,33 @@ public class Config {
     public static final TypeToken<Map<ResourceLocation, ToCoin>> TO_COIN_TYPE = new TypeToken<>() {
     };
 
+    public static final ResourceLocation SHOP_TYPE_LOCATION = ResourceLocation.fromNamespaceAndPath(ItemToCoinMod.MODID, "shoptype");
     public static final ResourceLocation SINGLE_SOUND_LOCATION = ResourceLocation.fromNamespaceAndPath(ItemToCoinMod.MODID, "sound");
     public static final ResourceLocation MULTIPLE_SOUND_LOCATION = ResourceLocation.fromNamespaceAndPath(ItemToCoinMod.MODID, "sounds");
 
+    public static ShopType SHOP_TYPE;
     public static Holder<SoundEvent> SINGLE_SOUND;
     public static Holder<SoundEvent> MULTIPLE_SOUND;
+
+    public static boolean SHOP_INSTALLED = false;
 
 
     public static Map<ResourceLocation, ToCoin> toCoinMap;
 
     public static void load(Map<ResourceLocation, ToCoin> toCoinMap) {
         Config.toCoinMap = new HashMap<>(toCoinMap);
+
+        ToCoin shopType = Config.toCoinMap.remove(SHOP_TYPE_LOCATION);
+        if (shopType == null) {
+            SHOP_TYPE = ShopType.SDM;
+        } else {
+            SHOP_TYPE = ShopType.getByType(shopType.type());
+        }
+
+        SHOP_INSTALLED = switch (SHOP_TYPE) {
+            case SDM -> ModList.get().isLoaded("sdmeconomy");
+            case VSS -> ModList.get().isLoaded("viscript_shop");
+        };
 
         ToCoin singleSound = Config.toCoinMap.remove(SINGLE_SOUND_LOCATION);
         if (singleSound == null) {
@@ -62,6 +82,9 @@ public class Config {
             if (!Files.exists(toCoinsPath)) {
                 Files.writeString(toCoinsPath, """
                         {
+                          "itemtocoin:shoptype": {
+                            "type": "sdm"
+                          },
                           "itemtocoin:sound": {
                             "type": "minecraft:entity.experience_orb.pickup"
                           },
@@ -81,6 +104,11 @@ public class Config {
         } catch (IOException e) {
             Config.toCoinMap = new HashMap<>();
             ItemToCoinMod.LOGGER.error("loading config failed.", e);
+        }
+
+        if (!SHOP_INSTALLED) {
+            MutableComponent msg = Component.translatable("itemtocoin.shopnotinstalled", SHOP_TYPE.getType());
+            ItemToCoinMod.LOGGER.error(msg.getString());
         }
     }
 

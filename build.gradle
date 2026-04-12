@@ -118,14 +118,19 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
     implementation fileTree(dir: "libs", include: "*.jar")
-    implementation "dev.architectury:architectury-neoforge:13.0.8"
-    implementation "curse.maven:ftb-library-forge-404465:5754910"
-    implementation "curse.maven:sdm-economy-1102542:6770946"
-    implementation "curse.maven:sdm-shop-948942:7018355"
 
+    // sdm
+    compileOnly "dev.architectury:architectury-neoforge:13.0.8"
+    compileOnly "curse.maven:ftb-library-forge-404465:5754910"
+    compileOnly "curse.maven:sdm-economy-1102542:6770946"
+    compileOnly "curse.maven:sdm-shop-948942:7018355"
     // test
-    implementation "curse.maven:sdm-engine-core-964997:5968080"
-    implementation "curse.maven:sdm-ui-lib-1095061:5762237"
+    compileOnly "curse.maven:sdm-engine-core-964997:5968080"
+    compileOnly "curse.maven:sdm-ui-lib-1095061:5762237"
+
+    // vss
+    compileOnly "curse.maven:viscriptshop-1408178:7905828"
+    compileOnly "curse.maven:ldlib-626676:7799504"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -146,7 +151,9 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
                              architectury_version   : architectury_version,
                              ftblibrary_version     : ftblibrary_version,
                              sdmshop_version        : sdmshop_version,
-                             sdmeconomy_version     : sdmeconomy_version
+                             sdmeconomy_version     : sdmeconomy_version,
+
+                             viscript_shop_version  : viscript_shop_version,
     ]
     inputs.properties replaceProperties
     expand replaceProperties

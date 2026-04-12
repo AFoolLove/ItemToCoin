@@ -1,4 +1,5 @@
 {
+  "itemtocoin.shopnotinstalled": "未安装%s商店，无法使用",
   "itemtocoin.tocoin": "转换了 %s%s，当前持有：%s%s。",
   "itemtocoin.notype": "'%s' 没有该类型的货币。",
   "itemtocoin.notenough": "%s物品数量(%s)不足，无法进行转换。"

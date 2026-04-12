@@ -80,28 +80,36 @@ side = "BOTH"
 
 [[dependencies."${mod_id}"]]
 modId = "sdmshop"
-type = "required"
+type = "optional"
 versionRange = "${sdmshop_version}"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies."${mod_id}"]]
-modId = "sdmshop"
-type = "required"
+modId = "sdmeconomy"
+type = "optional"
 versionRange = "${sdmeconomy_version}"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies."${mod_id}"]]
 modId = "architectury"
-type = "required"
+type = "optional"
 versionRange = "${architectury_version}"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies."${mod_id}"]]
 modId = "ftblibrary"
-type = "required"
+type = "optional"
 versionRange = "${ftblibrary_version}"
+ordering = "NONE"
+side = "BOTH"
+
+
+[[dependencies."${mod_id}"]]
+modId = "viscript_shop"
+type = "optional"
+versionRange = "${viscript_shop_version}"
 ordering = "NONE"
 side = "BOTH"
